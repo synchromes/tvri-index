@@ -38,8 +38,8 @@ This will automatically:
 
 ### 4. Access your application
 
-- Frontend: `http://your-ec2-ip`
-- Backend API: `http://your-ec2-ip/api`
+- Frontend: `http://tvri-index.bernacle.my.id`
+- Backend API: `http://tvri-index.bernacle.my.id/api`
 
 ## Post-Deployment Configuration
 
@@ -59,7 +59,7 @@ If you have a domain:
 
 ```bash
 cd ~/tvri-index
-sudo bash setup-ssl.sh yourdomain.com
+sudo bash setup-ssl.sh tvri-index.bernacle.my.id
 ```
 
 ### Configure AI API Keys

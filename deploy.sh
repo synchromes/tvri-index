@@ -113,7 +113,7 @@ chown $REAL_USER:$REAL_USER $DEPLOY_DIR/ecosystem.config.js
 cat > /etc/nginx/sites-available/tvri-index << 'EOF'
 server {
     listen 80;
-    server_name _;  # Replace with your domain
+    server_name tvri-index.bernacle.my.id;
 
     # Frontend
     location / {
@@ -163,8 +163,8 @@ echo -e "${GREEN}====================================="
 echo "Deployment Complete! ✅"
 echo "=====================================${NC}"
 echo ""
-echo -e "Frontend: ${GREEN}http://$(curl -s ifconfig.me):80${NC}"
-echo -e "Backend:  ${GREEN}http://$(curl -s ifconfig.me):80/api${NC}"
+echo -e "Frontend: ${GREEN}http://tvri-index.bernacle.my.id${NC}"
+echo -e "Backend:  ${GREEN}http://tvri-index.bernacle.my.id/api${NC}"
 echo ""
 echo -e "${YELLOW}Important Next Steps:${NC}"
 echo "1. Configure environment variables:"
@@ -175,7 +175,7 @@ echo "2. Configure AI API Keys in app Settings modal"
 echo ""
 echo "3. (Optional) Setup SSL with Certbot:"
 echo "   sudo apt install certbot python3-certbot-nginx"
-echo "   sudo certbot --nginx -d yourdomain.com"
+echo "   sudo certbot --nginx -d tvri-index.bernacle.my.id"
 echo ""
 echo "4. View logs:"
 echo "   sudo -u $REAL_USER pm2 logs"
