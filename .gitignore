@@ -23,6 +23,7 @@ backend/build/
 .env.production
 .env.development
 *.env
+!.env.example
 
 # IDE
 .vscode/
@@ -54,10 +55,10 @@ temp/
 # OS
 Thumbs.db
 .DS_Store
-
 # Documentation artifacts (user request)
 *.md
 !README.md
+!DEPLOYMENT.md
 docs/
 .gemini/
 
