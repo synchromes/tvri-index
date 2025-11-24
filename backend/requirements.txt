@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+sqlalchemy
+mysql-connector-python
+python-dotenv
+pandas
+openai
+google-generativeai
+httpx
+pypdf

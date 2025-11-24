@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Build outputs
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/dist/
+backend/dist/
+backend/build/
+
+# Environment & Config
+.env
+.env.local
+.env.production
+.env.development
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log.*
+
+# Testing
+coverage/
+.nyc_output/
+*.test.js.snap
+
+# Temporary files
+*.tmp
+*.temp
+temp_*.pdf
+temp/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Documentation artifacts (user request)
+*.md
+!README.md
+docs/
+.gemini/
+
+# Data files (keep structure, exclude large data)
+data/ai_config.json
+backend/test_backend.py
+
+# Misc
+.cache/
+.parcel-cache/
