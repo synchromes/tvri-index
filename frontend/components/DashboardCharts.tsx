@@ -16,7 +16,7 @@ const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 export function TopicDistributionChart({ topics }: DashboardChartsProps) {
     return (
         <div className="h-[350px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} debounce={50}>
                 <BarChart
                     data={topics}
                     margin={{ top: 20, right: 25, left: -20, bottom: 60 }}
@@ -95,7 +95,7 @@ export function ImpactAnalysisChart({ topics }: DashboardChartsProps) {
     return (
         <div className="h-[350px] w-full flex flex-col">
             <div className="flex-1">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} debounce={50}>
                     <PieChart>
                         <Pie
                             data={data}
@@ -130,7 +130,7 @@ export function ImpactAnalysisChart({ topics }: DashboardChartsProps) {
                     </PieChart>
                 </ResponsiveContainer>
             </div>
-            <div className="flex justify-center items-center gap-6 mt-3">
+            <div className="flex flex-wrap justify-center items-center gap-3 md:gap-6 mt-3">
                 {data.map((entry, index) => (
                     <div key={entry.name} className="flex items-center gap-2">
                         <div

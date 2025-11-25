@@ -58,7 +58,7 @@ export default function Home() {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [isReadMore, setIsReadMore] = useState(false);
   const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const [searchFilters, setSearchFilters] = useState<SearchFilters>({});
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
   const [aiStatus, setAiStatus] = useState<{ status: 'connected' | 'disconnected'; provider?: string } | null>(null);
@@ -106,9 +106,9 @@ export default function Home() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const statsRes = await fetch('http://localhost:8000/api/v1/dashboard/stats');
-      const newsRes = await fetch('http://localhost:8000/api/v1/news');
-      const aiRes = await fetch('http://localhost:8000/api/v1/status/ai');
+      const statsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/dashboard/stats`);
+      const newsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/news`);
+      const aiRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/status/ai`);
 
       const statsData = await statsRes.json();
       const newsData = await newsRes.json();
@@ -145,7 +145,7 @@ export default function Home() {
     if (filters.virality) params.append('virality', filters.virality);
 
     try {
-      const newsRes = await fetch(`http://localhost:8000/api/v1/news?${params.toString()}`);
+      const newsRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/news?${params.toString()}`);
       const newsData = await newsRes.json();
       setNews(newsData.data);
     } catch (error) {
@@ -196,7 +196,7 @@ export default function Home() {
     if (!selectedNews) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/news/${selectedNews.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/news/${selectedNews.id}`, {
         method: 'DELETE',
       });
 
@@ -225,59 +225,64 @@ export default function Home() {
 
       {/* Header */}
       <header className={`sticky top-0 z-40 ${bg.header} backdrop-blur-xl border-b ${border.default}`}>
-        <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-blue-900/50">
-              TI
-            </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <h1 className={`text-2xl font-bold tracking-tight ${text.primary}`}>TVRI <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">INDEX</span></h1>
-                {aiStatus && (
-                  <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold border ${aiStatus.status === 'connected' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>
-                    <div className={`w-1.5 h-1.5 rounded-full ${aiStatus.status === 'connected' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></div>
-                    {aiStatus.status === 'connected' ? 'AI CONNECTED' : 'AI DISCONNECTED'}
-                  </div>
-                )}
+        <div className="container mx-auto px-4 md:px-6 py-3 md:py-0 md:h-20 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
+          <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-blue-900/50 text-sm md:text-base">
+                TI
               </div>
-              <p className={`text-xs ${text.tertiary} tracking-widest uppercase`}>National Intelligence Platform</p>
+              <div>
+                <div className="flex items-center gap-2 md:gap-3">
+                  <h1 className={`text-xl md:text-2xl font-bold tracking-tight ${text.primary}`}>TVRI <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">INDEX</span></h1>
+                  {aiStatus && (
+                    <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[8px] md:text-[10px] font-bold border ${aiStatus.status === 'connected' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'}`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${aiStatus.status === 'connected' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></div>
+                      {aiStatus.status === 'connected' ? 'AI ONLINE' : 'OFFLINE'}
+                    </div>
+                  )}
+                </div>
+                <p className={`text-[10px] md:text-xs ${text.tertiary} tracking-widest uppercase hidden md:block`}>National Intelligence Platform</p>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 w-full md:w-auto justify-between md:justify-end overflow-x-auto pb-1 md:pb-0">
             <button
               onClick={() => setIsUploadOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-900/30"
+              className="flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-900/30 whitespace-nowrap"
             >
-              <PlusCircle size={18} />
-              Upload Berita
+              <PlusCircle size={16} className="md:w-[18px] md:h-[18px]" />
+              <span className="hidden sm:inline">Upload Berita</span>
+              <span className="sm:hidden">Upload</span>
             </button>
-            <button
-              onClick={fetchData}
-              className={`p-2.5 ${text.secondary} ${text.hover} ${bg.hover} rounded-xl transition-all hover:scale-105 active:scale-95`}
-              title="Refresh Data"
-            >
-              <RefreshCw size={20} className={loading ? "animate-spin" : ""} />
-            </button>
-            <button
-              onClick={toggleTheme}
-              className={`p-2.5 ${text.secondary} ${text.hover} ${bg.hover} rounded-xl transition-all hover:scale-105 active:scale-95`}
-              title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
-            >
-              {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium ${text.secondary} ${text.hover} ${bg.hover} rounded-xl transition-all border ${border.default}`}
-            >
-              <Settings size={16} />
-              Settings
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={fetchData}
+                className={`p-2 md:p-2.5 ${text.secondary} ${text.hover} ${bg.hover} rounded-xl transition-all hover:scale-105 active:scale-95`}
+                title="Refresh Data"
+              >
+                <RefreshCw size={18} className={`md:w-5 md:h-5 ${loading ? "animate-spin" : ""}`} />
+              </button>
+              <button
+                onClick={toggleTheme}
+                className={`p-2 md:p-2.5 ${text.secondary} ${text.hover} ${bg.hover} rounded-xl transition-all hover:scale-105 active:scale-95`}
+                title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+              >
+                {isDark ? <Sun size={18} className="md:w-5 md:h-5" /> : <Moon size={18} className="md:w-5 md:h-5" />}
+              </button>
+              <button
+                onClick={() => setIsSettingsOpen(true)}
+                className={`flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm font-medium ${text.secondary} ${text.hover} ${bg.hover} rounded-xl transition-all border ${border.default}`}
+              >
+                <Settings size={16} />
+                <span className="hidden sm:inline">Settings</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto p-6 relative z-10 space-y-10">
+      <main className="container mx-auto px-4 md:px-6 py-6 relative z-10 space-y-6 md:space-y-10">
 
         {/* Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -289,7 +294,7 @@ export default function Home() {
                 Real-time AI analysis of regional news streams. Monitoring stability, economic growth, and strategic risks across the archipelago.
               </p>
 
-              <div className="grid grid-cols-3 gap-6 mt-8">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mt-6 md:mt-8">
                 <div className={`${bg.cardAlt} p-4 rounded-xl border ${border.default}`}>
                   <div className="flex items-center gap-2 text-blue-400 mb-2">
                     <Activity size={18} />
@@ -454,7 +459,7 @@ export default function Home() {
       {selectedNews && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedNews(null)}>
           <div className={`${bg.modal} border ${isDark ? 'border-slate-700' : 'border-slate-300'} w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl`} onClick={e => e.stopPropagation()}>
-            <div className="p-8">
+            <div className="p-4 md:p-8">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <span className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-2 block">{selectedNews.province}</span>

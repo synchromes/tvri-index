@@ -22,7 +22,7 @@ export function NewsHealthRadar({ sentiment, virality, relevance }: PremiumChart
 
     return (
         <div className="h-[320px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} debounce={50}>
                 <RadarChart
                     cx="50%"
                     cy="50%"

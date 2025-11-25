@@ -31,7 +31,7 @@ export default function RelatedNews({ newsId, theme = 'dark', onNewsClick }: Rel
 
     const fetchRelatedNews = async () => {
         try {
-            const res = await fetch(`http://localhost:8000/api/v1/news/${newsId}/related?limit=5`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/news/${newsId}/related?limit=5`);
             const data = await res.json();
             setRelatedNews(data.related_news || []);
         } catch (error) {

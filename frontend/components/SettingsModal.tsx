@@ -33,7 +33,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
 
     const fetchConfig = async () => {
         try {
-            const res = await fetch('http://localhost:8000/api/v1/settings/config');
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/settings/config`);
             const data = await res.json();
             if (data.provider) setProvider(data.provider);
             if (data.model_name) setModelName(data.model_name);
@@ -48,7 +48,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
         setMessage('');
 
         try {
-            const res = await fetch('http://localhost:8000/api/v1/settings/test-connection', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/settings/test-connection`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ provider, api_key: apiKey, model_name: modelName }),
@@ -73,7 +73,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     };
 
     const saveConfig = async () => {
-        await fetch('http://localhost:8000/api/v1/settings/config', {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/settings/config`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ provider, api_key: apiKey, model_name: modelName }),
@@ -83,8 +83,8 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-6 shadow-2xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-4 md:p-6 shadow-2xl">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl font-bold text-white">Pengaturan AI</h2>
                     <button onClick={onClose} className="text-slate-400 hover:text-white">
@@ -166,7 +166,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                                             setMessage('Uploading PDF...');
 
                                             try {
-                                                const res = await fetch('http://localhost:8000/api/v1/knowledge/upload', {
+                                                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/knowledge/upload`, {
                                                     method: 'POST',
                                                     body: formData,
                                                 });

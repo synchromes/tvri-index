@@ -21,7 +21,7 @@ export default function TimelineChart({ theme = 'dark', compact = false }: Timel
 
     const fetchTimeline = async () => {
         try {
-            const res = await fetch('http://localhost:8000/api/v1/analytics/timeline?days=30');
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/analytics/timeline?days=30`);
             const result = await res.json();
             setData(result);
         } catch (error) {
@@ -84,7 +84,7 @@ export default function TimelineChart({ theme = 'dark', compact = false }: Timel
                 </div>
             )}
 
-            <ResponsiveContainer width="100%" height={compact ? 180 : 250}>
+            <ResponsiveContainer width="100%" height={compact ? 180 : 250} minWidth={0} debounce={50}>
                 <LineChart data={data.timeline}>
                     <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#334155" : "#e2e8f0"} />
                     <XAxis

@@ -98,7 +98,7 @@ export default function GeographicMap({ theme = 'dark', onProvinceClick, refresh
 
     const fetchGeographicData = async () => {
         try {
-            const res = await fetch('http://localhost:8000/api/v1/analytics/geographic');
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/analytics/geographic`);
             const result = await res.json();
             setData(result.provinces);
         } catch (error) {
@@ -165,7 +165,7 @@ export default function GeographicMap({ theme = 'dark', onProvinceClick, refresh
             </div>
 
             {/* Leaflet Map */}
-            <div className="h-96 rounded-xl overflow-hidden border border-slate-700 relative">
+            <div className="h-64 md:h-96 rounded-xl overflow-hidden border border-slate-700 relative">
                 {/* Reset Button (visible when filter is active) */}
                 {selectedProvince && (
                     <button

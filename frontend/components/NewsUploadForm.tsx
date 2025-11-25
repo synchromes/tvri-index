@@ -19,7 +19,7 @@ export default function NewsUploadForm({ onUploadSuccess, theme = 'dark' }: { on
         setStatus('idle');
 
         try {
-            const res = await fetch('http://localhost:8000/api/v1/news', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/news`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
